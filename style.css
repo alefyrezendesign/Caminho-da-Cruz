@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap');
 
 :root {
     --primary: #0A2540;
@@ -119,6 +119,7 @@ body {
 
 /* Hero Section */
 .hero {
+    min-height: 100vh;
     min-height: 100svh;
     background: #000000;
     display: flex; justify-content: center; align-items: center;
