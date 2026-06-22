@@ -1,0 +1,293 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caminho da Cruz - Roteiro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
+
+    <meta property="og:title" content="Caminho da Cruz - Roteiro Teatral">
+    <meta property="og:description" content="Roteiro completo da peça teatral 'Caminho da Cruz'.">
+    <meta property="og:image" content="simbol-encontro-horizontal-claro.png">
+    <meta property="og:url" content="">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+
+<nav class="top-nav hidden" id="top-nav">
+    <div class="nav-content">
+        <div class="header-left">
+            <button id="menu-btn" aria-label="Menu" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></button>
+            <span class="current-scene-title" id="current-scene">Detalhes da Peça</span>
+        </div>
+        <div class="header-right">
+            <span class="progress-text" id="progress-text">0%</span>
+            <button id="fullscreen-btn" aria-label="Tela Cheia" title="Tela Cheia" onclick="toggleFullscreen()"><i class="fa-solid fa-expand"></i></button>
+        </div>
+    </div>
+    <div class="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+</nav>
+
+<!-- Drawer Menu -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="toggleMenu()"></div>
+<div class="drawer-menu" id="drawer-menu">
+    <div class="drawer-header">
+        <h3>Índice</h3>
+        <button id="close-menu-btn" onclick="toggleMenu()" title="Fechar menu" aria-label="Fechar menu"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <ul class="drawer-list" id="drawer-list">
+        <!-- JS vai preencher -->
+    </ul>
+</div>
+
+<main>
+    <!-- Hero Section -->
+    <section class="hero" id="scene-1" data-title="Capa">
+        <div class="hero-content">
+            <img src="simbol-encontro-horizontal-claro.png" alt="Encontro com Deus" class="hero-logo">
+            <h1 class="hero-title">Caminho da Cruz</h1>
+            <p class="hero-subtitle">Roteiro Completo</p>
+            <button class="btn-primary" onclick="startReading()">Iniciar Leitura <i class="fa-solid fa-arrow-down"></i></button>
+        </div>
+    </section>
+
+    <!-- Scene 1: Detalhes -->
+    <section class="scene-section expanded" id="scene-2" data-title="Detalhes da Peça">
+        <div class="scene-header accordion-header" onclick="toggleScene(this)">
+            <div class="scene-title-wrapper">
+                <h2 class="scene-title">Detalhes da Peça</h2>
+                <i class="fa-solid fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="scene-divider"></div>
+        </div>
+        <div class="scene-content">
+            <div class="card info-card">
+                <h3><i class="fa-solid fa-users"></i> Personagens</h3>
+                <div class="characters-grid">
+                    <div class="char-item">Jesus</div>
+                    <div class="char-item">Narradora</div>
+                    <div class="char-item">Soldado (Aleson)</div>
+                    <div class="char-item">Soldado (Erique)</div>
+                    <div class="char-item">Mulheres</div>
+                    <div class="char-item">Simão de Cirene</div>
+                </div>
+            </div>
+            <div class="dialogue-card">
+                <p class="block-direction"><i class="fa-solid fa-masks-theater"></i> ORIENTAÇÃO GERAL:<br>O ambiente permanece escuro, iluminado apenas por tochas. Evitar qualquer fala paralela. O silêncio deve gerar tensão.<br>Todos os encontristas formam duas filas, criando um corredor longo até o local da cruz.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cena 1 -->
+    <section class="scene-section expanded" id="scene-3" data-title="Cena 1: Abertura da Via Dolorosa">
+        <div class="scene-header accordion-header" onclick="toggleScene(this)">
+            <div class="scene-title-wrapper">
+                <h2 class="scene-title">Cena 1: Abertura da Via Dolorosa</h2>
+                <i class="fa-solid fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="scene-divider"></div>
+        </div>
+        <div class="scene-content">
+            <div class="dialogue-card c-narracao">
+                <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
+                <p>Nesta noite, nós vamos percorrer a caminhada mais dolorosa e mais importante da história da humanidade. Um caminho marcado por sangue, por lágrimas e compaixão.<br>Esta é a Via Dolorosa.<br>O caminho que levou Jesus até a cruz.</p>
+                <span class="stage-direction sd-audio"><i class="fa-solid fa-volume-high"></i> Pausa. Deixar o som ambiente falar por si</span>
+                <span class="stage-direction sd-audio"><i class="fa-solid fa-music"></i> Solta a trilha sonora</span>
+                <p>Mas naquela caminhada, não era apenas uma cruz que estava sobre os Seus ombros. Era o peso dos meus pecados. Dos seus pecados. Dos pecados de toda a humanidade.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cena 2 -->
+    <section class="scene-section expanded" id="scene-4" data-title="Cena 2: Entrada de Jesus no corredor">
+        <div class="scene-header accordion-header" onclick="toggleScene(this)">
+            <div class="scene-title-wrapper">
+                <h2 class="scene-title">Cena 2: Entrada de Jesus no corredor</h2>
+                <i class="fa-solid fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="scene-divider"></div>
+        </div>
+        <div class="scene-content">
+            <span class="stage-direction sd-action"><i class="fa-solid fa-person-walking"></i> Jesus entra ao longe, carregando a cruz, sendo açoitado por dois soldados. Atrás, as mulheres seguem chorando e lamentando.</span>
+            <div class="dialogue-card c-soldado1">
+                <div class="char-header"><div class="char-main">SOLDADO (ALESON)</div></div>
+                <span class="stage-direction sd-action"><i class="fa-solid fa-hand-fist"></i> Açoita Jesus e fala diretamente a Ele</span>
+                <p>Anda! Continue andando! Seu fraco! Você não é o Cristo? Que vergonha!</p>
+            </div>
+            <div class="dialogue-card c-soldado2">
+                <div class="char-header"><div class="char-main">SOLDADO (ERIQUE)</div></div>
+                <span class="stage-direction sd-emotion"><i class="fa-solid fa-users"></i> Interage com platéia</span>
+                <p>Olhem para ele! Esse é o Filho de Deus? Esse é o Rei dos Judeus? Esse é o seu Senhor? Cadê o poder dele agora?</p>
+            </div>
+            <div class="dialogue-card c-narracao">
+                <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
+                <p>Ouça o som dos passos. Ouça o som dos açoites. Cada marca em Seu corpo. Cada ferida tem um motivo. Cada gota de sangue tem um nome. O meu. O seu.</p>
+            </div>
+            <div class="dialogue-card c-mulheres">
+                <div class="char-header"><div class="char-main">MULHERES</div></div>
+                <span class="stage-direction sd-emotion"><i class="fa-solid fa-face-sad-tear"></i> Choram um pouco mais alto</span>
+                <p>Não! Por favor! Nosso Cristo! Nosso Senhor! Por que? O que Ele fez?</p>
+            </div>
+            <div class="dialogue-card c-soldado2">
+                <div class="char-header"><div class="char-main">SOLDADO (ERIQUE)</div></div>
+                <p>Vocês acreditam mesmo que esse homem é o Salvador? Olhem bem para o Cristo de vocês!</p>
+                <span class="stage-direction sd-emotion"><i class="fa-solid fa-face-laugh"></i> Risos</span>
+            </div>
+            <div class="dialogue-card c-narracao">
+                <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
+                <p>Isaías havia profetizado:<br>Ele era desprezado e o mais rejeitado entre os homens. Homem de dores e experimentado nos sofrimentos.<br>Aquele que abriu os olhos dos cegos agora via a crueldade dos homens.<br>Aquele que amou virou alvo da nossa ira e orgulho.<br>Aquele que curou enfermos agora carregava sobre si as feridas do mundo.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cena 3 -->
+    <section class="scene-section expanded" id="scene-5" data-title="Cena 3: Jesus cai e Simão é chamado">
+        <div class="scene-header accordion-header" onclick="toggleScene(this)">
+            <div class="scene-title-wrapper">
+                <h2 class="scene-title">Cena 3: Jesus cai e Simão é chamado</h2>
+                <i class="fa-solid fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="scene-divider"></div>
+        </div>
+        <div class="scene-content">
+            <span class="stage-direction sd-action"><i class="fa-solid fa-person-falling"></i> Jesus continua caminhando até chegar diante de Simão de Cirene que está no corredor com os encontristas. Em frente a ele, Jesus perde as forças e cai sob o peso da cruz.</span>
+            <div class="dialogue-card c-soldado1">
+                <div class="char-header"><div class="char-main">SOLDADO (ALESON)</div></div>
+                <p>Levanta! Levanta! Nem carregar a própria cruz consegue!</p>
+            </div>
+            <div class="dialogue-card c-soldado2">
+                <div class="char-header"><div class="char-main">SOLDADO (ERIQUE)</div></div>
+                <span class="stage-direction sd-action"><i class="fa-solid fa-eye"></i> Olha ao redor e puxam Simão do meio do corredor.</span>
+                <p>Você! Venha aqui! Ajude esse homem fraco! Ande, carregue com ele!</p>
+            </div>
+            <span class="stage-direction sd-action"><i class="fa-solid fa-handshake-angle"></i> Simão ajuda Jesus a levantar e passa a carregar a cruz junto com Ele até o local da crucificação.</span>
+            <span class="stage-direction sd-action"><i class="fa-solid fa-microphone"></i> Enquanto Eles caminham a narradora continua</span>
+            <div class="dialogue-card c-narracao">
+                <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
+                <p>O nome dele era Simão. Um homem comum. Um homem que não sabia que naquele dia encontraria o Salvador. Que como um cordeiro levado ao matadouro, como uma ovelha muda diante dos seus tosquiadores, Ele não abriu a boca.<br>Ele não revidou.<br>Ele não fugiu.<br>Ele continuou.<br>Porque o amor o fazia continuar.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cena 4 -->
+    <section class="scene-section expanded" id="scene-6" data-title="Cena 4: Ponto final e Coroa de Espinho">
+        <div class="scene-header accordion-header" onclick="toggleScene(this)">
+            <div class="scene-title-wrapper">
+                <h2 class="scene-title">Cena 4: Ponto final e Coroa de Espinho</h2>
+                <i class="fa-solid fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="scene-divider"></div>
+        </div>
+        <div class="scene-content">
+            <span class="stage-direction">[Ao chegarem no ponto onde irão colocar a cruz os soldados retiram a cruz de Jesus e a colocam no chão, no ponto onde será levantada depois.]</span><span class="stage-direction">[Soldado empurra Simão para fora da cena. Simão recua triste olhando para Jesus.]</span>
+            <div class="dialogue-card c-soldado2">
+                <div class="char-header"><div class="char-main">SOLDADO (ERIQUE)</div></div>
+                <p>Ajoelhe-se! Ajoelhe-se diante de todos!</p>
+            </div>
+            <span class="stage-direction sd-action"><i class="fa-solid fa-person-praying"></i> Jesus é colocado de joelhos diante da cruz olhando para todos os encontristas.</span>
+            <div class="dialogue-card c-narracao">
+                <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
+                <p>O Rei dos reis, digno de toda glória agora se encontrava de joelhos. Humilhado diante da multidão. O Criador da vida é zombado por Sua própria criação. E mesmo assim, Ele permanece. Até o fim!</p>
+            </div>
+            <span class="stage-direction">[Soldado pega a coroa de espinhos que deve estar no chão já no local e se aproxima lentamente de Jesus.]</span><span class="stage-direction">[A coroa é colocada na cabeça de Jesus. O líquido vermelho começa a escorrer de forma sutil.]</span>
+            <div class="dialogue-card c-soldado2">
+                <div class="char-header"><div class="char-main">SOLDADO (ERIQUE)</div></div>
+                <p>Vejam! Agora sim ele parece um rei!</p>
+            </div>
+            <div class="dialogue-card c-soldado1">
+                <div class="char-header"><div class="char-main">SOLDADO (ALESON)</div></div>
+                <p>Salve o Rei dos Judeus!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cena 5 -->
+    <section class="scene-section expanded" id="scene-7" data-title="Cena 5: Jesus é pregado na cruz">
+        <div class="scene-header accordion-header" onclick="toggleScene(this)">
+            <div class="scene-title-wrapper">
+                <h2 class="scene-title">Cena 5: Jesus é pregado na cruz</h2>
+                <i class="fa-solid fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="scene-divider"></div>
+        </div>
+        <div class="scene-content">
+            <span class="stage-direction">[Um Soldado levanta a Cruz e o outro Jesus.]</span><span class="stage-direction">[Soldado prepara a primeira mão. O martelo deve ser audível e ensaiado.]</span><span class="stage-direction">[Silêncio longo. Mulheres choram aos pés da cruz ou próximas da cena.]</span>
+            <div class="dialogue-card c-narracao">
+                <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
+                <p>E ali, suspenso entre o céu e a terra, Jesus carregava sobre si o pecado do mundo.<br>Toda culpa. Toda vergonha. Toda condenação. Todo pecado. Tudo estava sobre Ele.<br>Pela primeira vez, Aquele que sempre viveu em perfeita comunhão com o Pai experimenta o peso do abandono.</p>
+                <span class="stage-direction sd-action"><i class="fa-solid fa-person"></i> Jesus ergue a cabeça com dificuldade.</span>
+                <p>Então Ele clama: Eli, Eli, lama sabachthani? Deus meu, Deus meu, por que me abandonaste?</p>
+                <span class="stage-direction sd-tech"><i class="fa-solid fa-hourglass-half"></i> Pausa longa. Deixar a frase pesar no ambiente.</span>
+                <p>A morte que era nossa agora estava sobre Ele.<br>Mas ninguém tirou a vida de Jesus. Foi Ele quem a entregou.<br>E então, o Filho de Deus entrega o Seu espírito.</p>
+            </div>
+            <span class="stage-direction">[Jesus inclina a cabeça lentamente pro alto e depois morre.]</span><span class="stage-direction">[Silêncio absoluto por alguns segundos.]</span>
+            <div class="dialogue-card c-narracao">
+                <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
+                <p>Naquele instante, o véu do templo se rasgou de alto a baixo. A terra tremeu. As rochas se partiram. O céu chorou. Mas um caminho foi aberto. O preço havia sido pago. A dívida havia sido cancelada.</p>
+            </div>
+            <span class="stage-direction sd-action"><i class="fa-solid fa-person-walking-arrow-right"></i> Soldados retiram Jesus da cruz e o carregam para fora da cena. Mulheres e o Cireneu acompanham.</span>
+        </div>
+    </section>
+
+    <!-- Cena 6 -->
+    <section class="scene-section expanded" id="scene-8" data-title="Cena 6: Convite para queimar os pedidos">
+        <div class="scene-header accordion-header" onclick="toggleScene(this)">
+            <div class="scene-title-wrapper">
+                <h2 class="scene-title">Cena 6: Convite para queimar os pedidos</h2>
+                <i class="fa-solid fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="scene-divider"></div>
+        </div>
+        <div class="scene-content">
+            <span class="stage-direction sd-tech"><i class="fa-solid fa-eye-slash"></i> Com Jesus fora da cena</span>
+            <div class="dialogue-card c-narracao">
+                <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
+                <p>Agora, eu quero que você olhe para aquilo que você escreveu.<br>Talvez seja um pecado. Talvez uma prisão. Talvez uma ferida. Talvez uma culpa.<br>Talvez algo que você carrega há anos e que ninguém conhece.<br>Mas hoje você não precisa continuar carregando isso. Porque Jesus já carregou.<br>Venha. Entregue diante da cruz.<br>Lance sobre a cruz aquilo que tem roubado sua paz.</p>
+            </div>
+            <span class="stage-direction">[Os encontristas começam a colocar os papéis no recipiente. A equipe auxilia com ordem e segurança. Um de cada vez.]</span><span class="stage-direction">[ORAÇÃO PELOS PAPÉIS QUEIMADOS]</span>
+        </div>
+    </section>
+
+    <!-- Cena 7 -->
+    <section class="scene-section expanded" id="scene-9" data-title="Cena 7: Ressurreição">
+        <div class="scene-header accordion-header" onclick="toggleScene(this)">
+            <div class="scene-title-wrapper">
+                <h2 class="scene-title">Cena 7: Ressurreição</h2>
+                <i class="fa-solid fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="scene-divider"></div>
+        </div>
+        <div class="scene-content">
+            <div class="dialogue-card c-narracao">
+                <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
+                <p>Agora, pois, nenhuma condenação há para os que estão em Cristo Jesus. Porque Ele tomou o nosso lugar. Ele morreu a nossa morte. Ele pagou a nossa dívida.<br>Mas a história não termina na cruz. A história não termina no sofrimento. A história não termina na morte.</p>
+                <span class="stage-direction sd-tech"><i class="fa-solid fa-user-ninja"></i> Preparar discretamente Jesus ressuscitado no ponto combinado.</span>
+                <p>Ao longo da história, homens tentaram mudar o mundo. Reis surgiram. Imperadores surgiram. Filósofos surgiram. Líderes surgiram. Todos deixaram sua marca. Mas todos permaneceram em seus túmulos.</p>
+                <span class="stage-direction sd-emotion"><i class="fa-solid fa-bolt"></i> Bastante impacto</span>
+                <p>Mas se você for no túmulo de Jesus você vai encontrar a frase: Ele não está aqui. Ele ressuscitou. A cruz está vazia. O túmulo está vazio. Cristo vive! E está entre nós!</p>
+            </div>
+            <span class="stage-direction sd-tech"><i class="fa-solid fa-lightbulb"></i> A luz acende no local e Jesus aparece ressuscitado, com roupa branca, coroa e faixa vermelha.</span>
+            <div class="dialogue-card c-narracao">
+                <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
+                <p>No trono mais alto dos céus é Ele quem está assentado. Ele vive e reina para todo o sempre.</p>
+            </div>
+            <span class="stage-direction">[Ficam alguns minutos glorificando e adorando o PAI.]</span><span class="stage-direction">[O Palestrante assume]</span>
+        </div>
+    </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
+
+
+
