@@ -36,6 +36,51 @@
     </div>
 </nav>
 
+<!-- Custom Audio Player UI -->
+<div class="custom-audio-player hidden" id="custom-audio-player">
+    <div class="player-header">
+        <div class="player-track-info"><i class="fa-solid fa-music"></i> <span id="player-title">Trilha</span></div>
+        <div class="player-actions">
+            <button id="player-minimize" aria-label="Minimizar" title="Minimizar"><i class="fa-solid fa-compress"></i></button>
+            <button id="player-close" aria-label="Fechar" title="Fechar"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+    </div>
+    <div class="player-controls-main">
+        <button id="player-prev" aria-label="Anterior" title="Trilha Anterior"><i class="fa-solid fa-backward-step"></i></button>
+        <button id="player-play" class="main-play-btn" aria-label="Play/Pause"><i class="fa-solid fa-play"></i></button>
+        <button id="player-next" aria-label="Próxima" title="Próxima Trilha"><i class="fa-solid fa-forward-step"></i></button>
+    </div>
+    <div class="player-timeline-container">
+        <span id="player-current-time">0:00</span>
+        <input type="range" class="player-timeline" id="player-timeline" value="0" min="0" max="100" step="1" aria-label="Timeline" title="Timeline">
+        <span id="player-total-time">0:00</span>
+    </div>
+    <div class="player-options player-fade-options">
+        <label class="fade-toggle">
+            <input type="checkbox" id="use-fade" checked>
+            <div class="fade-slider"></div>
+            <span class="fade-label">FADE ENTRE MÚSICAS</span>
+        </label>
+        <label class="fade-toggle">
+            <input type="checkbox" id="use-repeat">
+            <div class="fade-slider"></div>
+            <span class="fade-label">REPETIR</span>
+        </label>
+    </div>
+</div>
+
+<!-- Minimized Player Widget -->
+<div class="minimized-player hidden" id="minimized-player" onclick="restorePlayer()">
+    <div class="minimized-info">
+        <i class="fa-solid fa-music"></i>
+        <div class="minimized-text">
+            <span class="minimized-label">Em espera</span>
+            <span id="minimized-title">Trilha...</span>
+        </div>
+    </div>
+    <button id="minimized-play" aria-label="Play/Pause" onclick="event.stopPropagation(); togglePlayerPlay()"><i class="fa-solid fa-play"></i></button>
+</div>
+
 <!-- Drawer Menu -->
 <div class="drawer-overlay" id="drawer-overlay" onclick="toggleMenu()"></div>
 <div class="drawer-menu" id="drawer-menu">
@@ -100,9 +145,10 @@
                 <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
                 <p>Nesta noite, nós vamos percorrer a caminhada mais dolorosa e mais importante da história da humanidade. Um caminho marcado por sangue, por lágrimas e compaixão.<br>Esta é a Via Dolorosa.<br>O caminho que levou Jesus até a cruz.</p>
                 <span class="stage-direction sd-audio"><i class="fa-solid fa-volume-high"></i> Pausa. Deixar o som ambiente falar por si</span>
-                <span class="stage-direction sd-audio"><i class="fa-solid fa-music"></i> Solta a trilha sonora</span>
                 <p>Mas naquela caminhada, não era apenas uma cruz que estava sobre os Seus ombros. Era o peso dos meus pecados. Dos seus pecados. Dos pecados de toda a humanidade.</p>
             </div>
+            <button class="music-cue" onclick="toggleAudio('trilha-caminho-da-cruz/01-fernanda-brum-via-dolorosa.mp3', this)"><i class="fa-solid fa-play"></i> [Trilha 1 - Via Dolorosa]</button>
+            <button class="music-cue" onclick="toggleAudio('trilha-caminho-da-cruz/01-getsemani.mp3', this)"><i class="fa-solid fa-play"></i> [Trilha 2 - Getsemani]</button>
         </div>
     </section>
 
@@ -193,6 +239,7 @@
                 <p>Ajoelhe-se! Ajoelhe-se diante de todos!</p>
             </div>
             <span class="stage-direction sd-action"><i class="fa-solid fa-person-praying"></i> Jesus é colocado de joelhos diante da cruz olhando para todos os encontristas.</span>
+            <button class="music-cue" onclick="toggleAudio('trilha-caminho-da-cruz/02-lembranças-de-jesus-cut.mp3', this)"><i class="fa-solid fa-play"></i> [Trilha 3 - Lembranças de Jesus]</button>
             <div class="dialogue-card c-narracao">
                 <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
                 <p>O Rei dos reis, digno de toda glória agora se encontrava de joelhos. Humilhado diante da multidão. O Criador da vida é zombado por Sua própria criação. E mesmo assim, Ele permanece. Até o fim!</p>
@@ -229,6 +276,7 @@
                 <p>A morte que era nossa agora estava sobre Ele.<br>Mas ninguém tirou a vida de Jesus. Foi Ele quem a entregou.<br>E então, o Filho de Deus entrega o Seu espírito.</p>
             </div>
             <span class="stage-direction sd-action"><i class="fa-solid fa-cross"></i> Jesus inclina a cabeça lentamente pro alto e depois morre.</span><span class="stage-direction sd-tech"><i class="fa-solid fa-volume-xmark"></i> Silêncio absoluto por alguns segundos.</span>
+            <button class="music-cue" onclick="toggleAudio('trilha-caminho-da-cruz/03-min-p-vivas-o-grito.mp3', this)"><i class="fa-solid fa-play"></i> [Trilha 4 - O Grito]</button>
             <div class="dialogue-card c-narracao">
                 <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
                 <p>Naquele instante, o véu do templo se rasgou de alto a baixo. A terra tremeu. As rochas se partiram. O céu chorou. Mas um caminho foi aberto. O preço havia sido pago. A dívida havia sido cancelada.</p>
@@ -275,6 +323,8 @@
                 <p>Mas se você for no túmulo de Jesus você vai encontrar a frase: Ele não está aqui. Ele ressuscitou. A cruz está vazia. O túmulo está vazio. Cristo vive! E está entre nós!</p>
             </div>
             <span class="stage-direction sd-tech"><i class="fa-solid fa-lightbulb"></i> A luz acende no local e Jesus aparece ressuscitado, com roupa branca, coroa e faixa vermelha.</span>
+            <button class="music-cue" onclick="toggleAudio('trilha-caminho-da-cruz/04-pra-sempre-cut.mp3', this)"><i class="fa-solid fa-play"></i> [Trilha 5 - Pra Sempre]</button>
+            <button class="music-cue" onclick="toggleAudio('trilha-caminho-da-cruz/05-jesus-filho-de-deus-cut.mp3', this)"><i class="fa-solid fa-play"></i> [Trilha 6 - Jesus Filho de Deus]</button>
             <div class="dialogue-card c-narracao">
                 <div class="char-header narrador-header"><div class="char-main"><i class="fa-solid fa-microphone"></i> NARRADORA</div></div>
                 <p>No trono mais alto dos céus é Ele quem está assentado. Ele vive e reina para todo o sempre.</p>

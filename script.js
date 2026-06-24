@@ -156,4 +156,249 @@ function toggleScene(headerElement) {
 
 
 
-// Removed unused Audio Player code that was causing JS errors
+// --- AUDIO PLAYER LOGIC ---
+const PLAYLIST = [
+    { url: 'trilha-caminho-da-cruz/01-fernanda-brum-via-dolorosa.mp3', title: 'Trilha 1: Via Dolorosa' },
+    { url: 'trilha-caminho-da-cruz/01-getsemani.mp3', title: 'Trilha 2: Getsemani' },
+    { url: 'trilha-caminho-da-cruz/02-lembranças-de-jesus-cut.mp3', title: 'Trilha 3: Lembranças de Jesus' },
+    { url: 'trilha-caminho-da-cruz/03-min-p-vivas-o-grito.mp3', title: 'Trilha 4: O Grito' },
+    { url: 'trilha-caminho-da-cruz/04-pra-sempre-cut.mp3', title: 'Trilha 5: Pra Sempre' },
+    { url: 'trilha-caminho-da-cruz/05-jesus-filho-de-deus-cut.mp3', title: 'Trilha 6: Jesus Filho de Deus' }
+];
+
+let activeAudio = null;
+let fadingOutAudio = null;
+let currentTrackIndex = -1;
+let crossfadeInterval = null;
+
+const playerUI = document.getElementById('custom-audio-player');
+const minimizedUI = document.getElementById('minimized-player');
+const playerTitle = document.getElementById('player-title');
+const minimizedTitle = document.getElementById('minimized-title');
+const playerPlayBtn = document.getElementById('player-play');
+const minimizedPlayBtn = document.getElementById('minimized-play');
+const playerTimeline = document.getElementById('player-timeline');
+const playerCurrentTime = document.getElementById('player-current-time');
+const playerTotalTime = document.getElementById('player-total-time');
+
+function loadTrack(index) {
+    if (index < 0 || index >= PLAYLIST.length) return;
+    currentTrackIndex = index;
+    const track = PLAYLIST[index];
+    
+    playerTitle.innerText = track.title;
+    minimizedTitle.innerText = track.title;
+    
+    playerUI.dataset.pendingUrl = track.url;
+    
+    playerTimeline.value = 0;
+    playerCurrentTime.innerText = "00:00";
+    playerTotalTime.innerText = "00:00";
+    updatePlayState(false);
+
+    const prevBtn = document.getElementById('player-prev');
+    const nextBtn = document.getElementById('player-next');
+    if (prevBtn) prevBtn.disabled = (currentTrackIndex === 0);
+    if (nextBtn) nextBtn.disabled = (currentTrackIndex === PLAYLIST.length - 1);
+}
+
+window.toggleAudio = function(url, buttonElement) {
+    let trackIndex = PLAYLIST.findIndex(t => url.includes(t.url) || t.url.includes(url));
+    if (trackIndex === -1) trackIndex = 0;
+    
+    if (activeAudio && activeAudio.src.includes(encodeURI(url.replace(/ /g, '%20')))) {
+        currentTrackIndex = trackIndex;
+        playerTitle.innerText = PLAYLIST[trackIndex].title;
+        minimizedTitle.innerText = PLAYLIST[trackIndex].title;
+        playerUI.dataset.pendingUrl = "";
+        updatePlayState(!activeAudio.paused);
+        
+        const prevBtn = document.getElementById('player-prev');
+        const nextBtn = document.getElementById('player-next');
+        if (prevBtn) prevBtn.disabled = (currentTrackIndex === 0);
+        if (nextBtn) nextBtn.disabled = (currentTrackIndex === PLAYLIST.length - 1);
+        
+        openPlayer();
+        return;
+    }
+
+    loadTrack(trackIndex);
+    openPlayer();
+}
+
+window.togglePlayerPlay = function() {
+    const url = playerUI.dataset.pendingUrl;
+    
+    if (activeAudio && (!url || activeAudio.src.includes(encodeURI(url.replace(/ /g, '%20'))))) {
+        if (activeAudio.paused) {
+            activeAudio.play();
+            updatePlayState(true);
+        } else {
+            activeAudio.pause();
+            updatePlayState(false);
+        }
+        return;
+    }
+
+    if (!url) return;
+
+    const newAudio = new Audio(url);
+    const useFade = document.getElementById('use-fade').checked;
+    const useRepeat = document.getElementById('use-repeat').checked;
+
+    newAudio.loop = useRepeat;
+    
+    if (activeAudio && useFade) {
+        fadingOutAudio = activeAudio;
+        let fadeOutVol = fadingOutAudio.volume;
+        
+        newAudio.volume = 0;
+        newAudio.play().catch(console.error);
+        
+        clearInterval(crossfadeInterval);
+        const step = 1 / 60; // 60 passos
+        
+        crossfadeInterval = setInterval(() => {
+            fadeOutVol = Math.max(0, fadeOutVol - step);
+            if (fadingOutAudio) fadingOutAudio.volume = fadeOutVol;
+            
+            newAudio.volume = Math.min(1, newAudio.volume + step);
+            
+            if (fadeOutVol <= 0) {
+                clearInterval(crossfadeInterval);
+                if (fadingOutAudio) fadingOutAudio.pause();
+                fadingOutAudio = null;
+                newAudio.volume = 1;
+            }
+        }, 50); // 50ms * 60 = 3 segundos de transição
+    } else {
+        if (fadingOutAudio) {
+            fadingOutAudio.pause();
+            fadingOutAudio = null;
+        }
+        if (activeAudio) {
+            activeAudio.pause();
+            activeAudio.volume = 1;
+        }
+        clearInterval(crossfadeInterval);
+        newAudio.volume = 1;
+        newAudio.play().catch(console.error);
+    }
+
+    activeAudio = newAudio;
+    playerUI.dataset.pendingUrl = "";
+    updatePlayState(true);
+
+    activeAudio.addEventListener('timeupdate', () => {
+        if (!activeAudio || activeAudio !== newAudio) return;
+        if (playerUI.dataset.pendingUrl && playerUI.dataset.pendingUrl !== "") return;
+        
+        playerCurrentTime.innerText = formatTime(activeAudio.currentTime);
+        playerTotalTime.innerText = formatTime(activeAudio.duration);
+        if (activeAudio.duration) {
+            playerTimeline.value = (activeAudio.currentTime / activeAudio.duration) * 100;
+        }
+    });
+
+    activeAudio.addEventListener('ended', () => {
+        if (!activeAudio.loop) {
+            updatePlayState(false);
+        }
+    });
+}
+
+function updatePlayState(isPlaying) {
+    const icon = isPlaying ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+    playerPlayBtn.innerHTML = icon;
+    minimizedPlayBtn.innerHTML = icon;
+    if (isPlaying) {
+        playerPlayBtn.classList.add('playing');
+        minimizedPlayBtn.classList.add('playing');
+        document.querySelector('.minimized-label').innerText = 'Reproduzindo';
+    } else {
+        playerPlayBtn.classList.remove('playing');
+        minimizedPlayBtn.classList.remove('playing');
+        document.querySelector('.minimized-label').innerText = 'Em espera';
+    }
+}
+
+function formatTime(seconds) {
+    if (isNaN(seconds)) return "00:00";
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = Math.floor(seconds % 60);
+    
+    if (h > 0) {
+        return h + ":" + (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+    }
+    return (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
+}
+
+function openPlayer() {
+    minimizedUI.classList.remove('visible');
+    setTimeout(() => minimizedUI.classList.add('hidden'), 400);
+    
+    playerUI.classList.remove('hidden');
+    setTimeout(() => playerUI.classList.add('visible'), 10);
+}
+
+function minimizePlayer() {
+    playerUI.classList.remove('visible');
+    setTimeout(() => playerUI.classList.add('hidden'), 400);
+    
+    minimizedUI.classList.remove('hidden');
+    setTimeout(() => minimizedUI.classList.add('visible'), 10);
+}
+
+function closePlayer() {
+    playerUI.classList.remove('visible');
+    minimizedUI.classList.remove('visible');
+    setTimeout(() => {
+        playerUI.classList.add('hidden');
+        minimizedUI.classList.add('hidden');
+    }, 400);
+    if (activeAudio) {
+        activeAudio.pause();
+        updatePlayState(false);
+    }
+}
+
+window.restorePlayer = function() {
+    openPlayer();
+}
+
+document.getElementById('player-minimize').addEventListener('click', minimizePlayer);
+document.getElementById('player-close').addEventListener('click', closePlayer);
+playerPlayBtn.addEventListener('click', togglePlayerPlay);
+
+document.getElementById('player-next').addEventListener('click', () => {
+    const nextIndex = currentTrackIndex + 1;
+    if (nextIndex < PLAYLIST.length) {
+        loadTrack(nextIndex);
+    }
+});
+
+document.getElementById('player-prev').addEventListener('click', () => {
+    const prevIndex = currentTrackIndex - 1;
+    if (prevIndex >= 0) {
+        loadTrack(prevIndex);
+    }
+});
+
+if (playerTimeline) {
+    playerTimeline.addEventListener('input', (e) => {
+        if (activeAudio && activeAudio.duration) {
+            const seekTime = (e.target.value / 100) * activeAudio.duration;
+            activeAudio.currentTime = seekTime;
+        }
+    });
+}
+
+const useRepeatCheckbox = document.getElementById('use-repeat');
+if (useRepeatCheckbox) {
+    useRepeatCheckbox.addEventListener('change', (e) => {
+        if (activeAudio) {
+            activeAudio.loop = e.target.checked;
+        }
+    });
+}
