@@ -181,20 +181,38 @@ const playerTimeline = document.getElementById('player-timeline');
 const playerCurrentTime = document.getElementById('player-current-time');
 const playerTotalTime = document.getElementById('player-total-time');
 
+function formatTime(seconds) {
+    if (isNaN(seconds)) return "00:00";
+    const m = Math.floor(seconds / 60);
+    const s = Math.floor(seconds % 60);
+    return `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+}
+
 function loadTrack(index) {
     if (index < 0 || index >= PLAYLIST.length) return;
     currentTrackIndex = index;
     const track = PLAYLIST[index];
     
-    playerTitle.innerText = track.title;
-    minimizedTitle.innerText = track.title;
-    
-    playerUI.dataset.pendingUrl = track.url;
-    
-    playerTimeline.value = 0;
-    playerCurrentTime.innerText = "00:00";
-    playerTotalTime.innerText = "00:00";
-    updatePlayState(false);
+    if (activeAudio && activeAudio.src.includes(encodeURI(track.url.replace(/ /g, '%20')))) {
+        playerTitle.innerText = track.title;
+        minimizedTitle.innerText = track.title;
+        playerUI.dataset.pendingUrl = "";
+        updatePlayState(!activeAudio.paused);
+        
+        playerCurrentTime.innerText = formatTime(activeAudio.currentTime);
+        playerTotalTime.innerText = formatTime(activeAudio.duration);
+        if (activeAudio.duration) {
+            playerTimeline.value = (activeAudio.currentTime / activeAudio.duration) * 100;
+        }
+    } else {
+        playerTitle.innerText = track.title;
+        minimizedTitle.innerText = track.title;
+        playerUI.dataset.pendingUrl = track.url;
+        playerTimeline.value = 0;
+        playerCurrentTime.innerText = "00:00";
+        playerTotalTime.innerText = "00:00";
+        updatePlayState(false);
+    }
 
     const prevBtn = document.getElementById('player-prev');
     const nextBtn = document.getElementById('player-next');
@@ -206,22 +224,6 @@ window.toggleAudio = function(url, buttonElement) {
     let trackIndex = PLAYLIST.findIndex(t => url.includes(t.url) || t.url.includes(url));
     if (trackIndex === -1) trackIndex = 0;
     
-    if (activeAudio && activeAudio.src.includes(encodeURI(url.replace(/ /g, '%20')))) {
-        currentTrackIndex = trackIndex;
-        playerTitle.innerText = PLAYLIST[trackIndex].title;
-        minimizedTitle.innerText = PLAYLIST[trackIndex].title;
-        playerUI.dataset.pendingUrl = "";
-        updatePlayState(!activeAudio.paused);
-        
-        const prevBtn = document.getElementById('player-prev');
-        const nextBtn = document.getElementById('player-next');
-        if (prevBtn) prevBtn.disabled = (currentTrackIndex === 0);
-        if (nextBtn) nextBtn.disabled = (currentTrackIndex === PLAYLIST.length - 1);
-        
-        openPlayer();
-        return;
-    }
-
     loadTrack(trackIndex);
     openPlayer();
 }
